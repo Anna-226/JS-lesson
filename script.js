@@ -1,26 +1,18 @@
 "use strict";
 
-let numberOfFilms;
-
-function start() {
-    numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
-    while (numberOfFilms == "" || numberOfFilms == null || isNaN(numberOfFilms)) {
-            numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
-
-    }
-}
-
-start();
-
 const personalMovieDB = {
-   count: numberOfFilms,
+   count: 0,
    movies: {},
    actors: {},
    genres: [],
    privat: false,
-}; 
-
-function rememberMyFilms() {
+   start: function() {
+    personalMovieDB.count = +prompt('Сколько фильмов вы уже посмотрели?', '');
+    while (personalMovieDB.count == "" || personalMovieDB.count == null || isNaN(personalMovieDB.count)) {
+    numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
+    }
+   },
+   rememberMyFilms: function() {
     for (let i = 0; i<2 ; i++) {
         let a = prompt("Один из последний просмотренных фильмов?", ""),
             b = prompt("На сколько оцените его?", "");
@@ -30,11 +22,8 @@ function rememberMyFilms() {
             i--;
         }
     }
-}
-
-rememberMyFilms();
-
-function detectPersonalLevel() {
+   },
+   detectPersonalLevel: function() {
     if (numberOfFilms < 10) {
         alert('Мало фильмов');
     } else if (numberOfFilms<30) {
@@ -42,49 +31,35 @@ function detectPersonalLevel() {
     } else if (numberOfFilms>30) {
         alert("Вы киноман");
     } else {
-        alert("Произошла ошибка")
+        alert("Произошла ошибка");
     }
-}
-
-detectPersonalLevel();
-
-function showMyDB() {
-    if (!personalMovieDB.privat) {
+   },
+   showMyDB: function(hidden) {
+    if (!hidden) {
         console.log(personalMovieDB);
     }
-}
-
-showMyDB();
-
-function writeYourGenres() {
+   }, 
+   writeYourGenres: function() {
     for (let i=0; i<3; i++) {
-        personalMovieDB.genres[i] = prompt(`Ваш любимый жанр под номером ${i+1}?`);
+        let genre = prompt(`Ваш любимый жанр под номером ${i+1}?`);
+        if (genre == null || genre === "") {
+            console.log("ошибка");
+            i--;
+        } else {
+            personalMovieDB.genres[i] = genre;
+        }
     }
-}
-
-writeYourGenres();
-
-//console.log(personalMovieDB);
-
-
-/* for (let i = 0; i<2 ; i++) {
-    let a, b;
-    do {a = prompt("Один из последний просмотренных фильмов?", ""),
-        b = prompt("На сколько оцените его?", "")}
-    while (a == "" || a == null || b == "" || b == null || a.length > 50 );
-    personalMovieDB[a] = b;
-} 
-
-for (let i = 0; i<2 ; i++) {
-    let a = prompt("Один из последний просмотренных фильмов?", "");
-    while (a == "" || a == null || a.length > 50) {
-       a = prompt("Один из последний просмотренных фильмов?", ""); 
+    this.genres.forEach((item, i) => {
+        console.log(`Любимый жанр №${i+1} - это ${item}`);
+    });
+   },
+   toggleVisibleMyDB: function() {
+    if (this.privat) {
+        this.privat = false;
+    } else {
+        this.privat = true;
     }
-    let b = prompt("На сколько оцените его?", "");
-    while (b == "" || b == null) {
-       b = prompt("На сколько оцените его?", ""); 
-    }
-    personalMovieDB.movies[a] = b;
-} */
+   }
+}; 
 
 
